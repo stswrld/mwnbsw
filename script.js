@@ -307,7 +307,7 @@ $(function() {
     if (window.location.href.match(/nearbystops\.sitesworld\.com/)) {
         $('.container').before(
             '<table style="width:90%;margin:0 auto"><tr>' +
-            '<td> <a style="" href="https://play.google.com/store/apps/details?id=com.sitesworld.nearbystops" target="_top"><img style="height:40px" src="android_app.png" /></a> </td>' +
+            '<td> <a style="" href="https://play.google.com/store/apps/details?id=com.sitesworld.nearbystops" target="_top"><img style="height:50px" src="android_app.png" /></a> </td>' +
             '<td>   </td>' +
             '</tr></table>' +
             '');
