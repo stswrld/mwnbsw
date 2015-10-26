@@ -300,10 +300,31 @@ if (thisPage == "route_details") {
 }
 
  
-    // del ?
-    $(function() { 
-        // last if any
-      });
+// LAST ONES
+$(function() {
+    // FOR NOT ON APP, BUT WEBSITE
+    // if (window.location.href.match(/localhost/)) {
+    if (window.location.href.match(/nearbystops\.sitesworld\.com/)) {
+        $('.container').before(
+            '<table style="width:90%;margin:0 auto"><tr>' +
+            '<td> <a style="" href="https://play.google.com/store/apps/details?id=com.sitesworld.nearbystops" target="_top"><img style="height:40px" src="android_app.png" /></a> </td>' +
+            '<td>   </td>' +
+            '</tr></table>' +
+            '');
+        // --- GOOGLE ANALYTICS
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', sw_ga_cd]);
+        _gaq.push(['_trackPageview']);
+        (function() {
+            var ga = document.createElement('script');
+            ga.type = 'text/javascript';
+            ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ga);
+        })();
+        // --- /GOOGLE ANALYTICS
+    }
+});
 
 
 

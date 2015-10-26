@@ -1,148 +1,66 @@
 <!DOCTYPE html>
 <html>
-	
 	<head>
-		
 		<script>
-				var preloadImg1 = new Image(32,32);
-				preloadImg1.src = "loading.gif";
-				
+		var preloadImg1 = new Image(32,32);
+		preloadImg1.src = "loading.gif";
+		sw_ga_cd = '\x55A'+'\x2D'+'11'+'\x321'+'5\x32'+'8'+'\x2D'+'6';
+		sw_as_cd = '\x70'+'u'+'\x62\x2D'+'5'+'69\x30'+'2'+'\x3031'+'1'+'33'+'5'+'97'+'2'+'1';
+		window.google_analytics_uacct = sw_ga_cd;
 		</script>
-
-		<title>Nearby Stops Mississauga Transit (MiWay)</title>
-		
+		<title>Nearby Stops Mississauga</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-		
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		
-		<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js">
-		</script>
-		
+		<script src="jquery/jquery.min.js"></script>
 		<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
 		
-		
-		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js">
-		</script>
-		
+		<script src="bootstrap/js/bootstrap.min.js"></script>
 	</head>
-	
 	<body>
-		
 		<div id="wrap">
-			
 			<!-- NAVBAR -->
-			
 			<nav class="navbar navbar-default">
-				
 				<div class="container-fluid">
-					
 					<div class="navbar-header">
 						
-						
-						<a href="./index.html" class="navbar-brand">
-							<img style="height:1em;display:inline-block;" src="nearbystops.png"> NearbyStops
+						<a class="navbar-brand" href="./index.html"><img src="nearbystops.png" style="height:1em;display:inline-block;" /> <span class="appName_placeholder"></span></a>
+						<a class="navbar-brand" href="./index.html">
+							<span class="glyphicon glyphicon-home"></span>
 						</a>
-						
-						<a href="./index.html" class="navbar-brand">
-							
-							<span class="glyphicon glyphicon-home">
-							</span>
-							
+						<a class="navbar-brand" href="./index.html?p=stops">
+							<span class="glyphicon glyphicon-map-marker"></span>
 						</a>
-						
-						<a href="./index.html?p=stops" class="navbar-brand">
-							
-							<span class="glyphicon glyphicon-map-marker">
-							</span>
-							
-						</a>
-						
-						<a href="#" data-toggle="modal" data-target="#myModal" class="navbar-brand">
-							<span class="glyphicon glyphicon-question-sign">
-							</span>
-						</a>
-						
+						<span id="helpbutton"></span>
 					</div>
-					
 				</div>
-				
 			</nav>
-			
 			<div class="container">
-				
-				<h1>
-				<img style="height:1em;display:inline-block;" src="nearbystops.png"> NearbyStops
-				</h1>
-				<h2>   Get nearby stops and routes for any Mississauga bus stop
-				</h2>
- 
- 
-				 
-
-				 <a target="_top" style="display:block;margin:10px auto" href="https://play.google.com/store/apps/details?id=com.sitesworld.nearbystops"><img src="mississauga_app.png" /></a>
-				
+				<div id="search_form_placeholder">
+				</div>
 			</div>
-			
 			<div id="footer">
-				
-				<div style="height:50px;">
-				</div>
-				<p style="line-height:1em" class="text-center">
-					<small> &copy; NearbyStops All Rights Reserved.
-					</small>
-				</p>
-				<div style="height:100px;">
-				</div>
 			</div>
 			
-			
 			<!-- Modal help -->
-			
-			<div aria-hidden="true" style="display: none;" id="myModal" class="modal fade" role="dialog">
-				
+			<div role="dialog" class="modal fade" id="myModal" style="display: none;" aria-hidden="true">
 				<div class="modal-dialog">
-					
 					<!-- Modal content-->
-					
 					<div class="modal-content">
-						
 						<div class="modal-header">
-							
-							<button type="button" class="close" data-dismiss="modal">×
-							</button>
-							
-							<h4 class="modal-title">NearbyStops
-							</h4>
-							
+							<button data-dismiss="modal" class="close" type="button">×</button>
+							<h4 class="modal-title"><span class="appName_placeholder"></span></h4>
 						</div>
-						
 						<div class="modal-body">
-							
-							<p>     Get nearby stops and routes for any Mississauga bus stop
-							</p>
-							
+							<p>    <span class="appDesc_placeholder"></span> </p>
 						</div>
-						
 						<div class="modal-footer">
-							
-							<button type="button" class="btn btn-default" data-dismiss="modal">Close
-							</button>
-							
+							<button data-dismiss="modal" class="btn btn-default" type="button">Close</button>
 						</div>
-						
 					</div>
-					
 				</div>
-				
 			</div>
-			
 			<!-- Modal help -->
-			
 		</div>
-		
-		
-		
 	</body>
-	
-	
+	<script src="script.js"></script>
 </html>
