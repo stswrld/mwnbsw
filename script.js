@@ -79,7 +79,7 @@ if (!getParameterByName('rf') || typeof getParameterByName('rf') == 'undefined')
 
 // /QS
 var iconHtml_stop = ' <small><span class="glyphicon glyphicon-map-marker"></span></small> ';
-var iconHtml_route = ' <small><span class="glyphicon glyphicon-bed"></span> </small>  ';
+var iconHtml_route = ' <img src="icon_bus_grey.png" style="height:1em;display:inline-block;" />  ';
 // var iconHtml_stop = ' &#128655; '; // does not show in webview... until then use above.
 // var iconHtml_route = ' &#128653; ';
 
