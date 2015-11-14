@@ -144,7 +144,7 @@ if (thisPage == "stops") {
             var filter = stop_filter;
             $.each(json_data, function(i, value) {
                 // !KEEP for 1_array, use value.name 
-                if (i < totalItems) { // to skip last json empty json result
+                 if (  value['name']  ) { // to skip last json empty json result
                     var stopTextToSearch = value['name'] + '' + value['stop'];
                     if (stopTextToSearch.search(new RegExp(filter, "i")) >= 0) {
                         listitem_a += '<a class="list-group-item" href="' + rUrl + '?p=stop_details&stop=' + value['stop'] + '" id="' + value['stop'] + '"> ' +
@@ -157,7 +157,7 @@ if (thisPage == "stops") {
         } else {
             $.each(json_data, function(i, value) {
                 // !KEEP for 1_array, use value.name 
-                if (i < totalItems) { // to skip last json empty json result
+                 if (  value['name']  ) { // to skip last json empty json result
                     listitem_a += '<a class="list-group-item" href="' + rUrl + '?p=stop_details&stop=' + value['stop'] + '" id="' + value['stop'] + '"> ' +
                         iconHtml_stop +
                         value['name'] + ' <small><small>' + value['stop'] + '</small></small> ' +
