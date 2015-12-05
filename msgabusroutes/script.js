@@ -132,7 +132,7 @@ if (thisPage == "index") {
     $.ajax({
         method: "GET",
         // contentType: "application/json",
-        // dataType: 'json',
+        dataType: 'json',
         // url: "2.json",
         url: "test.json.gz",
         headers: {"Content-Encoding": "gzip"}
