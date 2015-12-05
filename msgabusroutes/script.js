@@ -132,8 +132,7 @@ if (thisPage == "index") {
 	
 	$.ajaxSetup({
     scriptCharset: "utf-8",
-    contentType: "application/json;
-    charset=utf-8",
+    contentType: "application/json;charset=utf-8",
     headers: {"Content-Encoding": "gzip"}
 });
 
