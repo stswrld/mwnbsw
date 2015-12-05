@@ -129,6 +129,15 @@ $('.container').append('<div id="loading" style="background-image:url(loading.gi
 // ---
 
 if (thisPage == "index") {
+	
+	$.ajaxSetup({
+    scriptCharset: "utf-8",
+    contentType: "application/json;
+    charset=utf-8",
+    headers: {"Content-Encoding": "gzip"}
+});
+
+
     $.getJSON("test.json.gz", function(json_file) {
         // bootstrap
         var allroutes_filteredText = (allroutes_filtered == "yes") ? ' <small> ' + allroutes_filter + ' </small>' : " <small> All </small> ";
