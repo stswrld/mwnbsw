@@ -39,18 +39,49 @@ function loadingDone() {
     $('.appName_placeholder').replaceWith(appName);
     $('.appDesc_placeholder').replaceWith(appDesc);
     $('.iconHtml_route_placeholder').replaceWith(iconHtml_route);
-    $('#footer').append(
-        ' <div style="height:50px;"></div> ' +
-        ' <p class="text-center" style="line-height:1em">  <small> &copy; ' + appName + ' All Rights Reserved.    </small>  </p>      ' +
-        ' <div style="height:100px;"></div>');
+    $('#footer').append(footerHtml);
     $('#helpbutton').replaceWith(' <a class="navbar-brand" data-target="#myModal" data-toggle="modal" href="#"><span class="glyphicon glyphicon-question-sign"></span></a> ');
 }
 
 function bsShowModal(id, title, text) {
-    var a = '<div id="' + id + '" class="modal fade" role="dialog"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal">&times;</button><h4 class="modal-title">' + title + '</h4></div><div class="modal-body"><p>' + text + '</p></div><div class="modal-footer"><button type="button" class="btn btn-default" data-dismiss="modal">OK</button></div></div></div></div>';
+    var a = '<div id="' + id + '" class="modal fade" role="dialog"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal">&times;</button><h4 class="modal-title">' + title + '</h4></div><div class="modal-body"> ' + text + ' </div><div class="modal-footer"><button type="button" class="btn btn-default" data-dismiss="modal">OK</button></div></div></div></div>';
     $('body').append(a);
     $("#" + id).modal();
     $('body').remove(a);
+} 
+
+function toTitleCase(str) {
+    return str.replace(/\w\S*/g, function(txt) {
+        return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+    });
+}
+
+function busroutes_listItemHtml_route(id, shortname, longname) {
+    return '' +
+        '<a class="list-group-item" ' +
+        ' href="' + rUrl + '?p=route_details&route=' + shortname + '" ' +
+        'id="' + id + '" ' +
+        '> ' +
+        iconHtml_route + ' ' + shortname + ' ' + longname + '</a> ';
+}
+
+function mp2json(file_data) {
+    // v1 hx/arr to json
+    function hex_to_buffer(string) {
+        return string.split(/\s+/).filter(function(chr) {
+            return (chr !== "");
+        }).map(function(chr) {
+            return parseInt(chr, 16);
+        });
+    }
+    var spacer = "  ";
+    var string = file_data;
+    // var array =  JSON.parse(string); // for array
+    var array = hex_to_buffer(string); // for hex
+    var buffer = new Uint8Array(array);
+    var data = msgpack.decode(buffer);
+    // var json_data = JSON.stringify(data, null, spacer);
+    return data;
 }
 
 // --- /FUNCTIONS
@@ -92,8 +123,15 @@ var iconHtml_route = ' <img src="icon_bus_grey.png" style="height:1em;display:in
 // var iconHtml_route = ' &#128653; ';
 
 // for android/prod
-var appName = 'MississaugaBusRoutes';
-var appDesc = ' Get all Mississauga bus routes and the stops they make. ';
+var appName = 'MississaugaBusRoutes ';
+var orgName = 'Sitesworld.com';
+var orgDomain = 'apps.sitesworld.com';
+var appDesc = ' <p>Get all Mississauga bus routes and the stops they make.</p> <p><small>Thanks for using. More apps at <a href=\"http://'+orgDomain+'\">'+orgDomain+'</a> </small></p>';
+var footerHtml =
+    ' <div style="height:50px;"></div> ' +
+    ' <p class="text-center" style="line-height:1em">  <small> &copy; ' +
+    ' <a href="http://'+orgDomain+'">'+orgName+'</a> All Rights Reserved.    </small>  </p>      ' +
+    ' <div style="height:100px;"></div>';
 var rUrl = "index.html";
     // --- KEEP ---
     // for localhost/dev
@@ -103,79 +141,57 @@ var rUrl = "index.html";
 
 $('.container').append('<div id="loading" style="background-image:url(loading.gif);background-repeat:no-repeat;height:64px;background-position:center"></div>');
 
-
-// ---
-// --- INDEX
-// ---
-// if (thisPage == "index") {
-//     $("#search_form_placeholder").before(
-//         ' <h1> <img src="msgabusroutes.png" style="height:1em;display:inline-block;" /> '+appName+' </h1>' +
-//         ' <h2>  '+ appDesc +' </h2> ' + 
  
-//         ' <a href="'+ rUrl +'?p=allroutes" class="btn btn-primary btn-lg btn-block " role="button"> '+ iconHtml_stop+' All allroutes </a>  ' +
-//         '   <h3 class="text-center"> or find one </h3>  ' +
-//         '');
-
-//     $('#search_form_placeholder').replaceWith(html_SearchForm(
-//     '<input name="p" type="hidden" value="allroutes"> ' + 
-//     '','sf',"Stop #, Street etc"));
-
-//     // $('#loading').remove();
-//     loadingDone();
-// }
 
 // ---
-// --- allroutes
+// --- index
 // ---
 
 if (thisPage == "index") {
-    $.getJSON("2.json", function(json_file) {
+    $.ajax({
+        method: "GET",
+        url: "2.hx"
+    }).done(function(mpFile) {
+        //// --- MP ---
+        json_data = mp2json(mpFile);
+        //// --- /MP ---
+        //
         // bootstrap
         var allroutes_filteredText = (allroutes_filtered == "yes") ? ' <small> ' + allroutes_filter + ' </small>' : " <small> All </small> ";
         $(".container").append(
-            '<h1>   '+iconHtml_stop+' Bus Routes ' + allroutes_filteredText + '</h1><div class="list-group">' +
+            '<h1>   ' + iconHtml_stop + ' Bus Routes ' + allroutes_filteredText + '</h1><div class="list-group">' +
             '</div>' +
             '');
-        // json_file['0001']['name']
-        json_data = json_file;
-
-        // delete json_file[key];
+        //
+        //
         var listitem_a = "";
-         $('#search_form_placeholder').replaceWith(html_SearchForm(
-    // '<input name="p" type="hidden" value="allroutes"> ' + 
-    '','sf',"Street or Route #"));
-
+        $('#search_form_placeholder').replaceWith(html_SearchForm(
+            // '<input name="p" type="hidden" value="allroutes"> ' + 
+            '', 'sf', "Street or Route #"));
         // allroutes_filtered
-        
         if (allroutes_filtered == "yes") {
             $('#filter').val(allroutes_filter);
             var filter = allroutes_filter;
             $.each(json_data, function(i, value) {
                 var allroutesTextToSearch = value['short'] + '' + value['long'];
                 if (allroutesTextToSearch.search(new RegExp(filter, "i")) >= 0) {
-                    listitem_a += '<a class="list-group-item" ' +
-                        ' href="' + rUrl + '?p=route_details&route=' + value['short'] + '" ' +
-                        'id="' + value['id'] + '" ' +
-                        '> ' +
-                        iconHtml_route + ' ' + value['short'] + ' ' + value['long'] + '</a> ';
+                    // DETERMINE HOW TO REFERENCE route:        
+                    var routeNumber = value['short']; //// msga route num and short are same
+                    listitem_a += busroutes_listItemHtml_route(routeNumber, value['short'], value['long']);
                 }
             });
         } else {
             $.each(json_data, function(i, value) {
-                // listitem_a +=  value['long'] ;
-                listitem_a += '<a class="list-group-item" ' +
-                    ' href="' + rUrl + '?p=route_details&route=' + value['short'] + '" ' +
-                    'id="' + value['id'] + '" ' +
-                    '> ' +
-                    iconHtml_route + ' ' + value['short'] + ' ' + value['long'] + '</a> ';
+                // DETERMINE HOW TO REFERENCE route:           
+                var routeNumber = value['short']; //// msga route num and short are same
+                // var routeNumber = i; // ttc route num and short ARE DIFFERENT, i is key name
+                listitem_a += busroutes_listItemHtml_route(routeNumber, value['short'], value['long']);
             });
         }
         $(".container .list-group").append(listitem_a);
-   // $('#loading').remove();
-    loadingDone();
-
+        // $('#loading').remove();
+        loadingDone();
     });
-
 }
 
 
@@ -184,13 +200,19 @@ if (thisPage == "index") {
 // ---
 if (thisPage == "route_details") {
     // TODO remove last empty one in the list
-    $.getJSON("2.json", function(json_file) {
+    $.ajax({
+        method: "GET",
+        url: "2.hx"
+    }).done(function(mpFile) {
+        //// --- MP ---
+        json_data = mp2json(mpFile);
+        //// --- /MP ---
+        //
         // bootstrap
         $(".container").append(
             '<div class="list-group">' +
             '</div>' +
             '');
-        json_data = json_file;
         var listitem_a = "";
         var thisRouteNumber = getParameterByName('route');
         var thisRoute = json_data[thisRouteNumber];
@@ -211,16 +233,14 @@ if (thisPage == "route_details") {
             var listitem_a = "";
             var listitem_a = '<h4> ' + thisRoute[dir_i]['dir'] + '  </h4>';
             // route_filtered
-            var a_onclick = ' onclick="bsShowModal(\'modal_stopdetail\',\'Stop Details\',\' For full stop details, their routes, their closest nearby stops, and more, just install our other absolutely FREE app called <b>Nearby Stops Mississauga</b>. Look for it now on Google Play!   \');"  ' ;
-                      
-
+            var a_onclick = ' onclick="bsShowModal(\'modal_stopdetail\',\'Stop Details\',\' <p>For full stop details, their routes, their closest nearby stops, and more, just install our other absolutely FREE app called <b>Nearby Stops Mississauga</b>. <a class=btn btn-primary btn-lg btn-block role=button href=market://details?id=com.sitesworld.nearbystops >Install on Google Play</a></p> <p><small>Thanks for using. More apps at <a href=http://' + orgDomain + '>' + orgDomain + '</a></small></p>    \');"  ';
             if (route_filtered == "yes") {
                 $('#filter').val(route_filter);
                 var filter = route_filter;
                 $.each(thisRoute[dir_i]['stops'], function(i, value) {
                     var routeTextToSearch = value['n'];
                     if (routeTextToSearch.search(new RegExp(filter, "i")) >= 0) {
-                        listitem_a += '<a '+ a_onclick +' class="list-group-item " href="#" id="dir_' + dir_i + '_' + value['i'] + '"> ' +
+                        listitem_a += '<a ' + a_onclick + ' class="list-group-item " href="#" id="dir_' + dir_i + '_' + value['i'] + '"> ' +
                             iconHtml_stop +
                             value['n'] + ' ' +
                             '</a> ';
@@ -230,7 +250,7 @@ if (thisPage == "route_details") {
                 // TODO: undefined erros.
                 $.each(thisRoute[dir_i]['stops'], function(i, value) {
                     if (value['n'].match(/.{3,}/)) { // only those which are not empty (and not the last empty one)
-                        listitem_a += '<a  '+ a_onclick +' class="list-group-item " href="#" id="dir_' + dir_i + '_' + value['i'] + '"> ' +
+                        listitem_a += '<a  ' + a_onclick + ' class="list-group-item " href="#" id="dir_' + dir_i + '_' + value['i'] + '"> ' +
                             iconHtml_stop +
                             value['n'] + ' ' +
                             '</a> ';
@@ -258,18 +278,25 @@ $(function() {
     if (window.location.href.match(/\.sitesworld\.com/)) {
         $('.container').before(
             '<table style="width:90%;margin:0 auto"><tr>' +
-            '<td> <a style="" href="https://play.google.com/store/apps/details?id=com.sitesworld.msgabusroutes" target="_top"><img style="height:50px" src="android_app.png" /></a> </td>' +
+            '<td> <a style="" href="https://play.google.com/store/apps/details?id=com.sitesworld.msgabusroutes" target="_top"><img style="height:50px" src="icon_googleplay.png" /></a> </td>' +
             '<td>   </td>' +
             '</tr></table>' +
             '');
         // --- GOOGLE ANALYTICS
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-  ga('create', sw_ga_cd , 'auto');
-  ga('require', 'displayfeatures');
-  ga('send', 'pageview');
+        (function(i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r;
+            i[r] = i[r] || function() {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date();
+            a = s.createElement(o),
+            m = s.getElementsByTagName(o)[0];
+            a.async = 1;
+            a.src = g;
+            m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+        ga('create', sw_ga_cd, 'auto');
+        ga('require', 'displayfeatures');
+        ga('send', 'pageview');
         // --- /GOOGLE ANALYTICS
     }
 });
