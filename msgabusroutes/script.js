@@ -132,10 +132,10 @@ if (thisPage == "index") {
     $.ajax({
         method: "GET",
         // contentType: "application/json",
-        dataType: 'jsonp',
-        // url: "2.json",
-        url: "test.json.gz",
-        headers: {"Content-Encoding": "gzip"}
+        //dataType: 'jsonp',
+        URL: "2.json",
+        //url: "test.json.gz",
+        //headers: {"Content-Encoding": "gzip"}
     })
         .done(function(json_file) {
         // bootstrap
