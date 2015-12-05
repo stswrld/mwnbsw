@@ -131,8 +131,6 @@ $('.container').append('<div id="loading" style="background-image:url(loading.gi
 if (thisPage == "index") {
 	
 	$.ajaxSetup({
-    scriptCharset: "utf-8",
-    contentType: "application/json;charset=utf-8",
     headers: {"Content-Encoding": "gzip"}
 });
 
