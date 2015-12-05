@@ -131,8 +131,8 @@ $('.container').append('<div id="loading" style="background-image:url(loading.gi
 if (thisPage == "index") {
     $.ajax({
         method: "GET",
-        contentType: "application/json",
-        dataType: 'json',
+        // contentType: "application/json",
+        dataType: 'jsonp',
         // url: "2.json",
         url: "test.json.gz",
         headers: {"Content-Encoding": "gzip"}
