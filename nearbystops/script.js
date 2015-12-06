@@ -212,7 +212,7 @@ if (thisPage == "index") {
 if (thisPage == "stops") {
     $.ajax({
         method: "GET",
-        url: "1.hx"
+        url: "1.txt"
     }).done(function(mpFile) {
         //// --- MP ---
         json_data = mp2json(mpFile);
@@ -263,7 +263,7 @@ if (thisPage == "stops") {
 if (thisPage == "stop_details") {
     $.ajax({
         method: "GET",
-        url: "1.hx"
+        url: "1.txt"
     }).done(function(mpFile) {
         //// --- MP ---
         json_data = mp2json(mpFile);
@@ -317,7 +317,7 @@ if (thisPage == "stop_details") {
 if (thisPage == "route_details") {
     $.ajax({
         method: "GET",
-        url: "2.hx"
+        url: "2.txt"
     }).done(function(mpFile) {
         //// --- MP ---
         json_data = mp2json(mpFile);
