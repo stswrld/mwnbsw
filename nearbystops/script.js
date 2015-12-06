@@ -196,7 +196,7 @@ if (thisPage == "index") {
     $("#search_form_placeholder").after(
         '<div style="text-align:center"> or </div> ' +
         '  <a  ' +
-        ' onclick="bsShowModal(\'modal_allstopswarn\',\'List all Stops?\',\'Cancel\',\' <p> Heads up: Showing *ALL* stops will take some time... continue? <a class=btn btn-primary btn-lg btn-block role=button href=?p=stops > Yes, Show all Stops </a> </p>    \');"  ' +
+        ' onclick="bsShowModal(\'modal_allstopswarn\',\'List all Stops?\',\'Cancel\',\' <p> Heads up: Showing *ALL* stops will take some time... continue? <a class=btn btn-primary btn-lg btn-block role=button href='+rUrl+'?p=stops > Yes, Show all Stops </a> </p>    \');"  ' +
         'style="cursor:pointer;display:block;text-align:center;text-decoration:underline;"  >  ' + iconHtml_stop + ' See All Stops </a>  ' +
         // '   <h3 class="text-center"> GET A STOP </h3>  ' +
         '');
@@ -212,6 +212,7 @@ if (thisPage == "index") {
 if (thisPage == "stops") {
     $.ajax({
         method: "GET",
+        cache: true,
         url: "1.txt"
     }).done(function(mpFile) {
         //// --- MP ---
@@ -263,6 +264,7 @@ if (thisPage == "stops") {
 if (thisPage == "stop_details") {
     $.ajax({
         method: "GET",
+        cache: true,
         url: "1.txt"
     }).done(function(mpFile) {
         //// --- MP ---
@@ -317,6 +319,7 @@ if (thisPage == "stop_details") {
 if (thisPage == "route_details") {
     $.ajax({
         method: "GET",
+        cache: true,
         url: "2.txt"
     }).done(function(mpFile) {
         //// --- MP ---
