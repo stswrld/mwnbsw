@@ -1,4 +1,3 @@
-
 // --- FUNCTIONS
 // ---
 function getParameterByName(name) {
@@ -9,27 +8,23 @@ function getParameterByName(name) {
     return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
 }
 
-function html_SearchForm(hiddenParams,paramName,placeholder) {
-    return  ''+
-        '<form method="get" action="index.html" id="search_form" > '+
-        '<div class="form-group ">'+
-            '<div class="row">'+
-
-                // ' <div class="col-xs-1"> '+
-                //     '<label> <span class="glyphicon glyphicon-filter"></span>   </label> '+
-                // ' </div> '+
-
-                ' <div class="col-xs-10"> '+
-                    '<input id="filter" name="'+paramName+'" type="text" class="form-control" placeholder="'+placeholder+'"> ' +
-                ' </div> '+
-
-                ' <div  > '+
-                    hiddenParams + 
-                    '<button id="searchbutton" type="submit" class="btn btn-default "><span class="glyphicon glyphicon-search"></span></button> '+
-                ' </div> '+
-
-            '</div>  '+
-        '</div>  '+
+function html_SearchForm(hiddenParams, paramName, placeholder) {
+    return '' +
+        '<form method="get" action="index.html" id="search_form" > ' +
+        '<div class="form-group ">' +
+        '<div class="row">' +
+        // ' <div class="col-xs-1"> '+
+        //     '<label> <span class="glyphicon glyphicon-filter"></span>   </label> '+
+        // ' </div> '+
+        ' <div class="col-xs-10"> ' +
+        '<input id="filter" name="' + paramName + '" type="text" class="form-control" placeholder="' + placeholder + '"> ' +
+        ' </div> ' +
+        ' <div  > ' +
+        hiddenParams +
+        '<button id="searchbutton" type="submit" class="btn btn-default "><span class="glyphicon glyphicon-search"></span></button> ' +
+        ' </div> ' +
+        '</div>  ' +
+        '</div>  ' +
         '</form>' +
         '';
 }
@@ -48,7 +43,7 @@ function bsShowModal(id, title, text) {
     $('body').append(a);
     $("#" + id).modal();
     $('body').remove(a);
-} 
+}
 
 function toTitleCase(str) {
     return str.replace(/\w\S*/g, function(txt) {
@@ -65,27 +60,14 @@ function busroutes_listItemHtml_route(id, shortname, longname) {
         iconHtml_route + ' ' + shortname + ' ' + longname + '</a> ';
 }
 
-function mp2json(file_data) {
-    // v1 hx/arr to json
-    function hex_to_buffer(string) {
-        return string.split(/\s+/).filter(function(chr) {
-            return (chr !== "");
-        }).map(function(chr) {
-            return parseInt(chr, 16);
-        });
-    }
-    var spacer = "  ";
-    var string = file_data;
-    // var array =  JSON.parse(string); // for array
-    var array = hex_to_buffer(string); // for hex
-    var buffer = new Uint8Array(array);
-    var data = msgpack.decode(buffer);
-    // var json_data = JSON.stringify(data, null, spacer);
-    return data;
+function loadingHtml() {
+    return '' +
+        '<div style="margin:0 auto;width:75px;padding:5px;background:#ddd;" id="loading"><div  style="background-image:url(loading.gif);background-repeat:no-repeat;height:64px;background-position:center"></div> </div>' +
+        '';
 }
 
+ 
 // --- /FUNCTIONS
-
 // --- /VARS
 // QS
 if (!getParameterByName('p') || typeof getParameterByName('p') == 'undefined') {
@@ -114,47 +96,91 @@ if (!getParameterByName('rf') || typeof getParameterByName('rf') == 'undefined')
     route_filter = getParameterByName('rf');
     route_filtered = "yes";
 }
-
 // /QS
 var iconHtml_stop = ' <small><span class="glyphicon glyphicon-map-marker"></span></small> ';
 var iconHtml_route = ' <img src="icon_bus_grey.png" style="height:1em;display:inline-block;" />  ';
 // var iconHtml_route = ' <small><span class="glyphicon glyphicon-bed"></span> </small>  ';
 // var iconHtml_stop = ' &#128655; '; // does not show in webview... until then use above.
 // var iconHtml_route = ' &#128653; ';
-
 // for android/prod
 var appName = 'MississaugaBusRoutes ';
 var orgName = 'Sitesworld.com';
 var orgDomain = 'apps.sitesworld.com';
-var appDesc = ' <p>Get all Mississauga bus routes and the stops they make.</p> <p><small>Thanks for using. More apps at <a href=\"http://'+orgDomain+'\">'+orgDomain+'</a> </small></p>';
+var appDesc = ' <p>Get all Mississauga bus routes and the stops they make.</p> <p><small>Thanks for using. More apps at <a href=\"http://' + orgDomain + '\">' + orgDomain + '</a> </small></p>';
 var footerHtml =
     ' <div style="height:50px;"></div> ' +
     ' <p class="text-center" style="line-height:1em">  <small> &copy; ' +
-    ' <a href="http://'+orgDomain+'">'+orgName+'</a> All Rights Reserved.    </small>  </p>      ' +
+    ' <a href="http://' + orgDomain + '">' + orgName + '</a> All Rights Reserved.    </small>  </p>      ' +
     ' <div style="height:100px;"></div>';
 var rUrl = "index.html";
-    // --- KEEP ---
-    // for localhost/dev
-    //var rUrl = "/www/"
+// --- KEEP ---
+// for localhost/dev
+//var rUrl = "/www/"
 // --- /VARS
+$('.container').append( loadingHtml() );
 
-
-$('.container').append('<div id="loading" style="background-image:url(loading.gif);background-repeat:no-repeat;height:64px;background-position:center"></div>');
-
- 
-
+// --- JQUERY FORCE AJAX CACHE -- 
+// http://stackoverflow.com/a/17104536
+// ** IMP: cache: true, MUST IN @.ajax param!!
+var localCache = {
+    /**
+     * timeout for cache in millis
+     * @type {number}
+     */
+    timeout: 86400000, // 24 hours in milli
+    /** 
+     * @type {{_: number, data: {}}}
+     **/
+    data: {},
+    remove: function(url) {
+        delete localCache.data[url];
+    },
+    exist: function(url) {
+        return !!localCache.data[url] && ((new Date().getTime() - localCache.data[url]._) < localCache.timeout);
+    },
+    get: function(url) {
+        console.log('Getting in cache for url' + url);
+        return localCache.data[url].data;
+    },
+    set: function(url, cachedData, callback) {
+        localCache.remove(url);
+        localCache.data[url] = {
+            _: new Date().getTime(),
+            data: cachedData
+        };
+        if ($.isFunction(callback)) callback(cachedData);
+    }
+};
+$.ajaxPrefilter(function(options, originalOptions, jqXHR) {
+    if (options.cache) {
+        var complete = originalOptions.complete || $.noop,
+            url = originalOptions.url;
+        //remove jQuery cache as we have our own localCache
+        options.cache = false;
+        options.beforeSend = function() {
+            if (localCache.exist(url)) {
+                complete(localCache.get(url));
+                return false;
+            }
+            return true;
+        };
+        options.complete = function(data, textStatus) {
+            localCache.set(url, data, complete);
+        };
+    }
+});
+// --- JQUERY FORCE AJAX CACHE -- 
 // ---
 // --- index
 // ---
-
 if (thisPage == "index") {
     $.ajax({
         method: "GET",
-        url: "2.hx"
+        dataType: "json", // THIS IS MUST for Anndroid! skipping it works in FF or PC, *NOT* android!
+        cache: true,
+        url: "2.json"
     }).done(function(mpFile) {
-        //// --- MP ---
-        json_data = mp2json(mpFile);
-        //// --- /MP ---
+        json_data = mpFile;
         //
         // bootstrap
         var allroutes_filteredText = (allroutes_filtered == "yes") ? ' <small> ' + allroutes_filter + ' </small>' : " <small> All </small> ";
@@ -193,8 +219,6 @@ if (thisPage == "index") {
         loadingDone();
     });
 }
-
-
 // ---
 // --- route_details
 // ---
@@ -202,10 +226,12 @@ if (thisPage == "route_details") {
     // TODO remove last empty one in the list
     $.ajax({
         method: "GET",
-        url: "2.hx"
+         dataType: "json", // THIS IS MUST for Anndroid! skipping it works in FF or PC, *NOT* android!
+        cache: true,
+        url: "2.json"
     }).done(function(mpFile) {
         //// --- MP ---
-        json_data = mp2json(mpFile);
+        json_data = mpFile;
         //// --- /MP ---
         //
         // bootstrap
@@ -267,10 +293,7 @@ if (thisPage == "route_details") {
         loadingDone();
     });
 }
-
-
 // TODO : COUNTERCLOCKWISE , undefined lasts
- 
 // LAST ONES
 $(function() {
     // FOR NOT ON APP, BUT WEBSITE
@@ -300,16 +323,3 @@ $(function() {
         // --- /GOOGLE ANALYTICS
     }
 });
-
-
-
- 
-
-
-
-
-
-
-
-
-

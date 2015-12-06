@@ -106,25 +106,6 @@ function buttonHtml_route(routeId, direction) {
         '';
 }
 
-function mp2json(file_data) {
-    // v1 hx/arr to json
-    function hex_to_buffer(string) {
-        return string.split(/\s+/).filter(function(chr) {
-            return (chr !== "");
-        }).map(function(chr) {
-            return parseInt(chr, 16);
-        });
-    }
-    var spacer = "  ";
-    var string = file_data;
-    // var array =  JSON.parse(string); // for array
-    var array = hex_to_buffer(string); // for hex
-    var buffer = new Uint8Array(array);
-    var data = msgpack.decode(buffer);
-    // var json_data = JSON.stringify(data, null, spacer);
-    return data;
-}
-
 function loadingHtml() {
     return '' +
         '<div style="margin:0 auto;width:75px;padding:5px;background:#ddd;" id="loading"><div  style="background-image:url(loading.gif);background-repeat:no-repeat;height:64px;background-position:center"></div> </div>' +
@@ -184,27 +165,31 @@ var rUrl = "index.html";
 
 $('.container').append( loadingHtml() );
 
+
+// --- JQUERY FORCE AJAX CACHE -- 
+// http://stackoverflow.com/a/17104536
+// ** IMP: cache: true, MUST IN @.ajax param!!
 var localCache = {
     /**
      * timeout for cache in millis
      * @type {number}
      */
-    timeout: 50000,
+    timeout: 86400000, // 24 hours in milli
     /** 
      * @type {{_: number, data: {}}}
      **/
     data: {},
-    remove: function (url) {
+    remove: function(url) {
         delete localCache.data[url];
     },
-    exist: function (url) {
+    exist: function(url) {
         return !!localCache.data[url] && ((new Date().getTime() - localCache.data[url]._) < localCache.timeout);
     },
-    get: function (url) {
+    get: function(url) {
         console.log('Getting in cache for url' + url);
         return localCache.data[url].data;
     },
-    set: function (url, cachedData, callback) {
+    set: function(url, cachedData, callback) {
         localCache.remove(url);
         localCache.data[url] = {
             _: new Date().getTime(),
@@ -213,25 +198,25 @@ var localCache = {
         if ($.isFunction(callback)) callback(cachedData);
     }
 };
-
-$.ajaxPrefilter(function (options, originalOptions, jqXHR) {
+$.ajaxPrefilter(function(options, originalOptions, jqXHR) {
     if (options.cache) {
         var complete = originalOptions.complete || $.noop,
             url = originalOptions.url;
         //remove jQuery cache as we have our own localCache
         options.cache = false;
-        options.beforeSend = function () {
+        options.beforeSend = function() {
             if (localCache.exist(url)) {
                 complete(localCache.get(url));
                 return false;
             }
             return true;
         };
-        options.complete = function (data, textStatus) {
+        options.complete = function(data, textStatus) {
             localCache.set(url, data, complete);
         };
     }
 });
+// --- JQUERY FORCE AJAX CACHE -- 
 
 
 // ---
@@ -245,7 +230,7 @@ if (thisPage == "index") {
     $("#search_form_placeholder").after(
         '<div style="text-align:center"> or </div> ' +
         '  <a  ' +
-        ' onclick="bsShowModal(\'modal_allstopswarn\',\'List all Stops?\',\'Cancel\',\' <p> Heads up: Showing *ALL* stops will take some time... continue? <a class=btn btn-primary btn-lg btn-block role=button href='+rUrl+'?p=stops > Yes, Show all Stops </a> </p>    \');"  ' +
+        ' onclick="bsShowModal(\'modal_allstopswarn\',\'List all Stops?\',\'Cancel\',\' <p> Heads up: Showing *ALL* stops will take some time... continue? <a class=btn btn-primary btn-lg btn-block role=button href=?p=stops > Yes, Show all Stops </a> </p>    \');"  ' +
         'style="cursor:pointer;display:block;text-align:center;text-decoration:underline;"  >  ' + iconHtml_stop + ' See All Stops </a>  ' +
         // '   <h3 class="text-center"> GET A STOP </h3>  ' +
         '');
@@ -261,12 +246,14 @@ if (thisPage == "index") {
 if (thisPage == "stops") {
     $.ajax({
         method: "GET",
+        dataType: "json", // THIS IS MUST for Anndroid! skipping it works in FF or PC, *NOT* android!
         cache: true,
-        url: "1.txt"
+        url: "1.json"
     }).done(function(mpFile) {
-        //// --- MP ---
-        json_data = mp2json(mpFile);
-        //// --- /MP ---
+         
+        // json_data = mp2json(mpFile);
+        json_data = mpFile;
+        
         //// bootstrap
         var stop_filteredText = (stop_filtered == "yes") ? ' <small> ' + stop_filter + ' </small>' : " <small> All </small> ";
         $(".container").append(
@@ -313,12 +300,12 @@ if (thisPage == "stops") {
 if (thisPage == "stop_details") {
     $.ajax({
         method: "GET",
+        dataType: "json", // THIS IS MUST for Anndroid! skipping it works in FF or PC, *NOT* android!
         cache: true,
-        url: "1.txt"
+        url: "1.json"
     }).done(function(mpFile) {
-        //// --- MP ---
-        json_data = mp2json(mpFile);
-        //// --- /MP ---
+        // json_data = mp2json(mpFile);
+        json_data = mpFile;
         // bootstrap
         $(".container").append(
             '<div class="list-group">' +
@@ -368,12 +355,12 @@ if (thisPage == "stop_details") {
 if (thisPage == "route_details") {
     $.ajax({
         method: "GET",
+        dataType: "json", // THIS IS MUST for Anndroid! skipping it works in FF or PC, *NOT* android!
         cache: true,
-        url: "2.txt"
+        url: "2.json"
     }).done(function(mpFile) {
-        //// --- MP ---
-        json_data = mp2json(mpFile);
-        //// --- /MP ---
+        // json_data = mp2json(mpFile);
+        json_data = mpFile;
         // bootstrap
         $(".container").append(
             '<div class="list-group">' +
