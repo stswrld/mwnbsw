@@ -295,3 +295,31 @@ if (thisPage == "route_details") {
 }
 // TODO : COUNTERCLOCKWISE , undefined lasts
 // LAST ONES
+$(function() {
+    // FOR NOT ON APP, BUT WEBSITE
+    // if (window.location.href.match(/localhost/)) {
+    if (window.location.href.match(/\.sitesworld\.com/)) {
+        $('.container').before(
+            '<table style="width:90%;margin:0 auto"><tr>' +
+            '<td> <a style="" href="https://play.google.com/store/apps/details?id=com.sitesworld.msgabusroutes" target="_top"><img style="height:50px" src="icon_googleplay.png" /></a> </td>' +
+            '<td>   </td>' +
+            '</tr></table>' +
+            '');
+        // --- GOOGLE ANALYTICS
+        (function(i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r;
+            i[r] = i[r] || function() {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date();
+            a = s.createElement(o),
+            m = s.getElementsByTagName(o)[0];
+            a.async = 1;
+            a.src = g;
+            m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+        ga('create', sw_ga_cd, 'auto');
+        ga('require', 'displayfeatures');
+        ga('send', 'pageview');
+        // --- /GOOGLE ANALYTICS
+    }
+});
