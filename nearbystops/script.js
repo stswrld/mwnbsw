@@ -250,7 +250,7 @@ if (thisPage == "stops") {
         method: "GET",
         dataType: "json", // THIS IS MUST for Anndroid! skipping it works in FF or PC, *NOT* android!
         cache: true,
-        ifModified: true,
+        ifModified: true, // only fetch if modified else use cache ver, 'guarantees' caching
         url: "1.json"
     }).done(function(mpFile) {
          
@@ -305,7 +305,7 @@ if (thisPage == "stop_details") {
         method: "GET",
         dataType: "json", // THIS IS MUST for Anndroid! skipping it works in FF or PC, *NOT* android!
         cache: true,
-        ifModified: true,
+        ifModified: true, // only fetch if modified else use cache ver, 'guarantees' caching
         url: "1.json"
     }).done(function(mpFile) {
         // json_data = mp2json(mpFile);
@@ -361,7 +361,7 @@ if (thisPage == "route_details") {
         method: "GET",
         dataType: "json", // THIS IS MUST for Anndroid! skipping it works in FF or PC, *NOT* android!
         cache: true,
-        ifModified: true,
+        ifModified: true, // only fetch if modified else use cache ver, 'guarantees' caching
         url: "2.json"
     }).done(function(mpFile) {
         // json_data = mp2json(mpFile);
