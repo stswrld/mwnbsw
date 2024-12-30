@@ -1,0 +1,120 @@
+/*  === ZD SPECIFIC  ===  */
+
+#logoheader {
+  background: black;
+}
+
+#logoheader img {
+  filter: invert(1);
+}
+
+/*  === ZD SPECIFIC  ===  */
+
+/*  === COMMON ===  */
+
+body {
+  font-family: Roboto, Arial, sans-serif;
+  line-height: 1.2em;
+}
+
+.container {
+  width: 90%;
+  margin: 10px auto;
+  max-width: 800px;
+}
+
+#logoheader {
+  padding: 10px;
+}
+
+#logoheader > div {
+  height: 50px;
+  overflow: hidden;
+}
+
+.postbody {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+h1 {
+  font-size: 1.7em;
+  line-height: 1.15em;
+}
+
+.postbody h2 {
+  display: none;
+}
+
+.postbody img {
+  max-height: 50vh;
+  max-width: 80vw;
+}
+
+#cse_container {
+  min-height: 40px;
+}
+
+#allLabels {
+  column-count: 4;
+}
+
+.bd_index .panel {
+  box-shadow: 0 0 10px gray;
+  padding: 10px;
+  margin: 10px 0;
+}
+
+.bd_index .panel * {
+  font-size: 14px;
+  color: black;
+}
+
+.bd_index .panel a {
+  text-decoration: underline;
+  color: black;
+}
+
+.bd_index .postheadline > h2 a, .bd_item .postheadline {
+  text-transform: uppercase;
+  text-decoration: none;
+}
+
+.bd_index .postheadline > h2 a {
+  line-height: 1.1em;
+  font-size: 1.5em;
+  display: block;
+  max-height: 175px;
+  overflow: hidden;
+  margin: 10px 10px 10px 0;
+  color: blue;
+}
+
+.pager a {
+  font-size: 130% !important;
+  color: blue !important;
+  font-weight: bold;
+}
+
+.pager {
+  column-count: 2;
+}
+
+.pager li {
+  list-style: none;
+  text-align: center;
+}
+
+.well {
+  margin: 20px 0;
+  padding: 10px 0;
+  border-top: solid 1px #aaa;
+  border-bottom: solid 1px #aaa;
+}
+
+footer .well > p {
+  font-size: 12px;
+  line-height: 1em;
+}
+
+/*  === /COMMON ===  */
