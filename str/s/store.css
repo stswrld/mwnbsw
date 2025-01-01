@@ -56,12 +56,6 @@ body {
   min-height: 400px;
 }
 
-.postbody :nth-child(4) {
-  /* main img's parent <a> */
-  display: block;
-  min-height: 250px;
-}
-
 h1 {
   font-size: 1.7em;
   line-height: 1.1em;

@@ -10,6 +10,19 @@
 
 /*  === COMMON ===  */
 
+/* BLGGR OVRRD */
+.widget ul {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* /BLGGR OVRRD */
+
+a {
+  color: green;
+  color: #1a73e8;
+}
+
 body {
   font-family: Roboto, Arial, sans-serif;
   line-height: 1.2em;
@@ -30,18 +43,36 @@ body {
   overflow: hidden;
 }
 
+.postheadline {
+  max-height: 10vh;
+  overflow: hidden;
+  display: block;
+  margin: 10px 10px 10px 0;
+}
+
 .postbody {
   max-width: 600px;
   margin: 0 auto;
+  min-height: 400px;
+}
+
+.postbody :nth-child(4) {
+  /* main img's parent <a> */
+  display: block;
+  min-height: 250px;
 }
 
 h1 {
   font-size: 1.7em;
-  line-height: 1.15em;
+  line-height: 1.1em;
 }
 
 .postbody h2 {
   display: none;
+}
+
+h3 {
+  font-size: 1em;
 }
 
 .postbody img {
@@ -50,7 +81,7 @@ h1 {
 }
 
 #cse_container {
-  min-height: 40px;
+  min-height: 50px;
 }
 
 #allLabels {
@@ -81,21 +112,22 @@ h1 {
 .bd_index .postheadline > h2 a {
   line-height: 1.1em;
   font-size: 1.5em;
-  display: block;
-  max-height: 175px;
-  overflow: hidden;
-  margin: 10px 10px 10px 0;
-  color: blue;
-}
-
-.pager a {
-  font-size: 130% !important;
-  color: blue !important;
-  font-weight: bold;
 }
 
 .pager {
+  font-size: 130% !important;
   column-count: 2;
+  margin: 38px auto !important;
+  padding: none !important;
+}
+
+.pager a {
+  font-weight: bold;
+  background: #ddd;
+  padding: 10px;
+  border-radius: 50px;
+  text-decoration: none;
+  display: block;
 }
 
 .pager li {
