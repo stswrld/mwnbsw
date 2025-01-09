@@ -1067,7 +1067,31 @@ $(window).on("load", function() {
 				"amzSB_T");
 			// }
 			// ---AFF FROM LABLES
-			$('.blogger-labels').before('<hr/><div style="text-align:right;margin: -18px 0;"><a style="font: normal 12px/1em Arial;" rel="nofollow" href="https://docs.google.com/forms/d/e/' + thsBlg_reportProductForm + '/viewform?usp=sf_link"><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> Report this item</a></div><div style="clear:both;"></div><hr/><h4>If you liked it, ALSO TRY:</h4><hr/><div  class="ldng_16_3x"  id="ebRSBtm_1"></div><hr/><div class="ldng_16_3x"  id="ebRSBtm_2"></div><hr/>');
+
+			$('.blogger-labels').before(`
+
+			<div style="clear:both;"></div>
+
+			<div style="text-align:right;">
+
+			<a style="font: normal 12px/1em Arial;" rel="nofollow" href="https://docs.google.com/forms/d/e/${thsBlg_reportProductForm}/viewform?usp=sf_link">
+
+			<span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> Report this item
+			</a>
+			</div>
+
+			<div style="clear:both;"></div>
+			<hr/>
+			<h4>If you liked it, ALSO TRY:</h4>
+			<div  class="ldng_16_3x"  id="ebRSBtm_1"></div>
+			<hr/>
+			<div class="ldng_16_3x"  id="ebRSBtm_2"></div>
+			<hr/>
+
+
+			`);
+
+			
 			var kw = $('.blogger-labels').text().replace(/\s+/igm, " ").trim().replace(/(labels\:)/igm, "").trim();
 			// console.log(kw);
 			try {
@@ -1114,8 +1138,8 @@ $(window).on("load", function() {
 		affLocalize(thsBlg_amz, thsBlg_epn);
 		// 
 		if (ThsBlg_pg == 'itempage') {
-			insertAfterHTMLByClass('postbody', '<div style="display:table;margin:10px auto;" id="addths_rec"></div>');
-			addthisN('addths_rec');
+			// insertAfterHTMLByClass('postbody', '<div style="display:table;margin:10px auto;" id="addths_rec"></div>');
+			// addthisN('addths_rec');
 		}
 	}
 	//
