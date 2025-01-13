@@ -57,7 +57,7 @@ p {
 .container {
   width: 90%;
   margin: 10px auto;
-  max-width: 800px;
+  max-width: 580px; /* < 800: AS-AUT.-SID.RA.L */
 }
 
 #logoheader {
