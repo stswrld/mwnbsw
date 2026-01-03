@@ -40,6 +40,7 @@ html {
 a {}
 
 body {
+  hyphens: auto;
   font-family: var(--main-font-family);
   line-height: 1.2em;
   font-size: 12px;
@@ -216,7 +217,7 @@ hr {
 /* pager */
 
 .bd_index .pager, .bd_item .pager {
-  column-count: 2;
+  /*column-count: 2;*/
 }
 
 .bd_index .pager a, .bd_item .pager a {
@@ -224,14 +225,14 @@ hr {
   font-weight: bold;
   border-radius: 50px;
   text-decoration: none !important;
-  display: table;
   width: fit-content; /* for chrome! */
   background: VAR(--pager-background-color);
-  font-size: 18px;
+  /*font-size: 18px;*/
   padding: 10px 30px;
   color: var(--pager-link-color);
   font-weight: bold;
-  white-space: nowrap;
+  display: table;
+  /*white-space: nowrap;*/
 }
 
 .bd_index .pager li, .bd_item .pager li {

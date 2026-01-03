@@ -133,6 +133,25 @@ function handleBrokenImages() {
 	/// HNDLE BRKN IMGS
 }
 
+function populateSearchBox() {
+
+	$('head').append(`<style> .search-container { display: flex; justify-content: center; align-items: center; padding: 0 10px; } .search-form {justify-content: center; display: flex; align-items: center; background-color: #ffffff; _padding: 20px; _border-radius: 8px; _box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); width: 100%; max-width: 600px; } .search-input { max-width:60%; flex: 1; padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 16px; } .search-button { padding: 10px 15px; border: none; border-radius: 4px; background-color: royalblue; color: white; font-size: 16px; cursor: pointer; margin-left: 10px; transition: background-color 0.3s; } .search-button:hover { background-color: royalblue; } </style>`);
+
+	var eq = "";
+	var title = "";
+
+	var q = new URLSearchParams(window.location.search).get('q');
+	if (q) {
+		eq = `value ="${q}" `;
+		title = `<p>Showing results for: <i>${q}</i></p>`;
+	}
+
+	var searchBoxHtml = ` <div class="search-container"> <form action="/search" method="get" class="search-form"> <input ${eq} type="text" name="q" placeholder="Search " required class="search-input"> <input type="hidden" name="by-date" value="true"> <button type="submit" class="search-button"> &nbsp; <svg width="16" height="16" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" > <circle cx="40" cy="40" r="30" stroke="white" stroke-width="16" fill="none" /> <line x1="60" y1="60" x2="98" y2="98" stroke="white" stroke-width="16" /> </svg> &nbsp; </button> </form> </div> ${title} `;
+
+	$('#cse_searchresults').html(searchBoxHtml);
+
+}
+
 // -------- AMZ/EPN FUNCS ----------
 
 function epn_rover2newURL(url, campid) {
@@ -413,7 +432,8 @@ $(function() {
 
 	menulinks();
 
-	gCSE(thsBlg_cse, thsBlg_cse_adchannel);
+	// gCSE(thsBlg_cse, thsBlg_cse_adchannel);
+	populateSearchBox();
 
 	// 
 	/// amz url clean

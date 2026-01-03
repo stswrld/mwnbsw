@@ -408,6 +408,35 @@ function menulinks() {
 	} catch (e) {}
 }
 
+function navPrevNexTitle(config) {
+	config.forEach(function(item) {
+		var linkEl = document.getElementById(item.id);
+		if (!linkEl || !linkEl.href) return;
+
+		// Clean the URL for the feed query
+		var path = linkEl.href.split(/[?#]/)[0].replace(/.*\/\/[^\/]*/, '');
+		var callbackName = "cb_" + item.id.replace(/[^a-zA-Z0-9]/g, "_");
+
+		window[callbackName] = function(data) {
+			if (data.feed.entry && data.feed.entry.length > 0) {
+				var postTitle = data.feed.entry[0].title.$t;
+				linkEl.setAttribute('title', postTitle);
+
+				if (item.type === 'prev') {
+					linkEl.innerHTML = "&#9665; " + postTitle;
+				} else {
+					linkEl.innerHTML = postTitle + " &#9655;";
+				}
+			}
+			delete window[callbackName];
+		};
+
+		var script = document.createElement('script');
+		script.src = "/feeds/posts/summary?alt=json-in-script&path=" + encodeURIComponent(path) + "&callback=" + callbackName;
+		document.body.appendChild(script);
+	});
+}
+
 // ========== /FUNCTIONS ==========
 
 // 
@@ -433,8 +462,7 @@ $(function() {
 	menulinks();
 
 	// gCSE(thsBlg_cse, thsBlg_cse_adchannel);
-	populateSearchBox();
-
+	populateSearchBox()
 	// 
 	/// amz url clean
 	// *** CLEAN ALL AMZ API URLS to .com/dp/xxx?tag=yyy ***
@@ -494,8 +522,21 @@ $(function() {
 
 			`);
 	// 
-	allBloggerLabels();
+	allBloggerLabels(); // this may lead to Uncaught SyntaxError: Unexpected token < when done locally, fine on remote
 	// 
+
+	try {
+
+		navPrevNexTitle([{
+			id: 'Blog1_blog-pager-newer-link',
+			type: 'prev'
+		}, {
+			id: 'Blog1_blog-pager-older-link',
+			type: 'next'
+		}]);
+
+	} catch (e) {}
+
 });
 
 // ============== ALL LAST --- WINDOW ON LOAD ===================
