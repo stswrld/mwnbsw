@@ -507,6 +507,18 @@ $(function() {
 	} catch (e) {}
 	// 
 
+	try {
+		// 2026-02-09 see logs
+		function epnSkwClean() {
+			$('a[href*=".ebay."]').each(function() {
+				var currentHref = $(this).attr('href');
+				var newHref = currentHref.replace(/_skw=[^&]+&/g, '_skw=&');
+				$(this).attr('href', newHref);
+			});
+		}
+		epnSkwClean();
+	} catch (e) {}
+
 	$('.blogger-labels').before(`
 
 			<div style="clear:both;"></div>
